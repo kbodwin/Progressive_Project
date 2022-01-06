@@ -1,0 +1,69 @@
+---
+title: "Dataset Overview"
+author: "YOUR NAME HERE"
+output: html_document
+---
+
+
+```{r, include = FALSE}
+## Ignore this for now; just hit "play"
+
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(janitor)
+library(gtsummary)
+```
+
+## Overview and purpose
+
+Describe the context of your dataset.  What general problem or topic is being studied?  Why might people be interested in this topic?
+
+## Source
+
+Describe the source of your dataset.  Who collected/created it?  Who funded it?
+
+## Information
+
+Describe the information contained in the dataset.  What was recorded?  How was it measured?  What are the observational or experimental units?  What are the variables?  Are they quantitative, categorical, or neither?
+
+
+## Related information
+
+Can you find any places where your dataset has been analyzed before?
+
+Can you find any related datasets that might be interesting to combine with this one?
+
+Can you find any scientific articles that relate to your dataset?
+
+## Load the data
+
+Choose your dataset, and delete the extra lines:
+
+```{r, message = FALSE}
+# delete all but the one for your dataset
+measles <- read_csv(here("Data", "measles.csv"))
+wine_ratings <- read_csv(here("Data", "wine_ratings.csv"))
+video_games <- read_csv(here("Data", "video_games.csv"))
+```
+
+Look at some information about your dataset:
+
+
+```{r}
+_____ %>% head()
+_____ %>% summary()
+```
+
+#### Planning ahead
+
+What are some possible issues you see with this dataset, that might make it difficult to analyze?
+
+
+# Your Project Step
+
+Fill out this R Markdown file for **one** of the three dataset options.   Make sure that you write the file in "essay form" - that is, you should write in complete sentences, and the prompt questions should be deleted.
+
+Knit the file, export it, and upload it to Canvas.
+
+(See "How to turn in your file" if you don't remember how to export!)

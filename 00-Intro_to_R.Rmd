@@ -170,4 +170,3 @@ However, you will sometimes want to do "permanent" tasks, like:
 In these cases, you'll want to make sure to use the `<-` part of the code to *reassign* your changed dataset and make the changes permanent.
 
 (Note: By "permanent", I mean that within this R Markdown document, the changes will stay.  You are **not** altering the actual data file; only R's current understanding of the data.)
-
