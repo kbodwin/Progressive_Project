@@ -1,0 +1,26 @@
+---
+title: "YOUR TITLE HERE"
+author: "YOUR NAMES HERE"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+```{r, include = FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(janitor)
+```
+
+
+```{r, include = FALSE}
+# delete all but the one for your dataset
+prison_pop <- read_csv(here("Data", "prison_population.csv"))
+cetaceans <- read_csv(here("Data", "cetaceans.csv"))
+measles <- read_csv(here("Data", "measles.csv"))
+wine_ratings <- read_csv(here("Data", "wine_ratings.csv"))
+video_games <- read_csv(here("Data", "video_games.csv"))
+```

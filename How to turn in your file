@@ -1,0 +1,7 @@
+When you are done filling out all the code and text sections, click the button right below the filename that says "knit".  Make sure you choose "Knit to HTML" (which is the default).
+
+To check your knitted file, find it in your bottom right pane. Click the file, then choose "Open in Browser".
+
+To export your final version, check the box next to the file in your bottom right pane.  Then, at the top of the bottom right pane, choose "More > Export".  
+
+This will download the HTML file to your computer, probably to your "Downloads" folder.  Upload that file to the assignment on Canvas.

@@ -1,0 +1,105 @@
+---
+title: "Dataset Summary"
+author: "YOUR NAMES HERE"
+date: "9/19/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+```{r, include = FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(janitor)
+```
+
+
+```{r, message = FALSE}
+# delete all but the one for your dataset
+prison_pop <- read_csv(here("Data", "prison_population.csv"))
+cetaceans <- read_csv(here("Data", "cetaceans.csv"))
+measles <- read_csv(here("Data", "measles.csv"))
+wine_ratings <- read_csv(here("Data", "wine_ratings.csv"))
+video_games <- read_csv(here("Data", "video_games.csv"))
+```
+
+## Overall Summary
+
+```{r}
+_______ %>% summary()
+
+```
+
+* How many observations are in this dataset?
+
+[YOUR ANSWER HERE]
+
+* How many variables are in this dataset?  Which are quantitative, and which are categorical?
+
+[YOUR ANSWER HERE]
+
+* Is there any missing data in this dataset?
+
+[YOUR ANSWER HERE]
+
+
+
+## Categorical Variables
+
+Choose two categorical variables in your dataset.
+
+For each, provide a *frequency distribution* and a *barplot* by filling in the blanks below with your dataset name and your categorical variable name.
+
+```{r}
+_________ %>%
+  count(________)
+
+_________ %>%
+  tabyl(________) %>%
+  adorn_percentages()
+
+_________ %>%
+  ggplot() +
+  geom_bar(aes(x = _______))
+```
+
+Discuss the output here.  What is the most frequent category?  The least?  Are the categories fairly evenly spread, or are some much more common than others?
+
+
+## Quantitative Variables
+
+Choose two quantitative variables in your dataset.
+
+For each, provide the *median and IQR* and a *boxplot* by filling in the blanks below with your dataset name and your variable name.
+
+```{r}
+_________ %>%
+  summarize(median(______),
+            IQR(______))
+
+_________ %>%
+  ggplot() +
+  geom_boxplot(aes(x = _______))
+```
+
+Then, for each, provide the *mean and standard deviation* and a *histogram*:
+
+```{r}
+_________ %>%
+  summarize(mean(______),
+            sd(______))
+
+_________ %>%
+  ggplot() +
+  geom_histogram(aes(x = _______))
+```
+
+
+Comment on the results.  What is the **shape** of the distribution?  Are the mean and median the same, or different, and what does that tell you about the data?  Do you notice anything interesting or unusual?
+
+## Research Questions
+
+Come up with three interesting research questions that you think could be addressed with this dataset.

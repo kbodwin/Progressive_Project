@@ -1,0 +1,40 @@
+---
+title: "Visualization"
+author: "YOUR NAMES HERE"
+date: "9/19/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+```{r, include = FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(janitor)
+```
+
+
+```{r, message = FALSE}
+# delete all but the one for your dataset
+prison_pop <- read_csv(here("Data", "prison_population.csv"))
+cetaceans <- read_csv(here("Data", "cetaceans.csv"))
+measles <- read_csv(here("Data", "measles.csv"))
+wine_ratings <- read_csv(here("Data", "wine_ratings.csv"))
+video_games <- read_csv(here("Data", "video_games.csv"))
+```
+
+
+Return to your three research questions from last week.
+
+Provide the *visualization* from the previous lab, as well as any relevant *summary statistics* for these two variables.
+
+Discuss your results in the context of the *variability* of the data:
+
+* What would you expect to see in the visual and summaries if the answer to your research question was *yes*?
+
+* What would you expect to see in the visual and summaries if the answer to your research question was *no*?
+
+* What conclusion do you think this data supports?

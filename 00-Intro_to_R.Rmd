@@ -1,0 +1,173 @@
+---
+title: "Introduction to R and R Markdown"
+author: "YOUR NAMES HERE"
+output: html_document
+---
+
+For now, you can ignore this bit:
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+library(tidyverse)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+There are two special things about R Markdown:
+
+#### 1. Rendered documents
+
+The way you see your text in the *source file* is not the way you see your text in the _rendered document_.
+
+To see this, click the "Knit" button at the top of this window.
+
+What does each of these special symbols do to text when it gets rendered? **Fill in the list below:**
+
+* Hashtag, `##`:
+
+* One asterisk `*` or one underscore `_`:
+
+* Two asterisks `**` or two underscores `__`:
+
+
+There are many more special symbols for formatting, but you shouldn't need more than these.
+
+#### 2. Embedded code
+
+In an R Markdown document, ordinary text can be interspersed with code.
+
+You can embed and run an R code chunk like this:
+
+```{r}
+2+2
+```
+
+To make a new chunk, you can:
+
+* Copy-paste an old chunk and change the code.
+
+* Click the "+C" drop-down at the top of this window.
+
+* Type "Ctrl-Alt-I"
+
+* Manually type out the tick marks and `{r}` part.  (NOT RECOMMENDED)
+
+To run the code in the chunk before you render the document,
+
+* Click the green "play" button on the right.
+
+* Use the "Run" drop-down menu at the top of this window.
+
+* Highlight the code you want to run and type "Ctrl-Enter" (PC) or "Cmd-Enter" (Mac)
+
+
+## Combining everything into a nice document
+
+When you create your project steps each week, you'll want to make good use of the source file formatting and chunks to create a readable document.
+
+What's great about R Markdown is that you can mix and match things like plots and corresponding discussions:
+
+```{r}
+plot(pressure)
+```
+
+Wow, it looks like the pressure is increasing over time!
+
+Here is a chunk that is almost identical, but not quite:
+
+```{r, echo = FALSE}
+plot(pressure)
+```
+
+Knit this document.  What is different about this chunk compared to the one before?
+
+## Coding: What is permanent?
+
+When you are using R to analyze data, you want to ask yourself:  Am I doing a **single computation**, or am I making a **permanent change** to an object, or am I creating a **new object**?
+
+A lot of the time, we just want to do a calculation and see the result:
+
+```{r}
+## What is 1+2?
+
+1 + 2
+
+## What information is contained in the built-in "mtcars" dataset?
+
+head(mtcars)
+summary(mtcars)
+```
+
+
+Sometimes, we want to store a result to use it later:
+
+```{r}
+## What is 1+2?
+
+a <- 1 + 2
+
+## What information is contained in the built-in "mtcars" dataset?
+
+first_car <- mtcars[1,]
+
+## What is the KILOMETERS per gallon of each car?
+
+mtcars %>%
+  mutate(
+    kpg = mpg*2.2
+  )
+```
+
+Notice that nothing printed out.  When you ran this chunk, what happened in the *Environment* section of your screen?
+
+We can now use these objects later.
+
+```{r}
+first_car
+
+a + 5
+```
+
+
+Sometimes, we want to make a change to an object that already exists:
+
+```{r}
+## What is 1+2+5?
+
+a <- a + 5
+
+## What is the KILOMETERS per gallon of each car?
+
+mtcars <- mtcars %>%
+  mutate(
+    kpg = mpg*2.2
+  )
+
+head(mtcars)
+```
+
+
+As you are working with datasets, you will sometimes want to do "temporary" tasks, such as:
+
+* Computing a summary statistic
+
+* Making a plot
+
+* Performing a statistical test
+
+In these cases, there's no real need to store your results in an object.
+
+However, you will sometimes want to do "permanent" tasks, like:
+
+* Narrow your dataset down to an area of focus
+
+* Make new variables for your dataset
+
+* Change existing variables in your dataset
+
+In these cases, you'll want to make sure to use the `<-` part of the code to *reassign* your changed dataset and make the changes permanent.
+
+(Note: By "permanent", I mean that within this R Markdown document, the changes will stay.  You are **not** altering the actual data file; only R's current understanding of the data.)
+

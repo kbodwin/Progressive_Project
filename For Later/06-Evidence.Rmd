@@ -1,0 +1,156 @@
+---
+title: "Visualization"
+author: "YOUR NAMES HERE"
+date: "9/19/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+```{r, include = FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(janitor)
+```
+
+
+```{r, message = FALSE}
+# delete all but the one for your dataset
+prison_pop <- read_csv(here("Data", "prison_population.csv"))
+cetaceans <- read_csv(here("Data", "cetaceans.csv"))
+measles <- read_csv(here("Data", "measles.csv"))
+wine_ratings <- read_csv(here("Data", "wine_ratings.csv"))
+video_games <- read_csv(here("Data", "video_games.csv"))
+```
+
+
+## Evidence: Cat-Cat
+
+Return to your research question (or choose a new one) pertaining to two categorical variables.  You'll want to choose variables with a small number of categories.  You may wish to combine categories using the following code:
+
+```{r}
+_______ <- _______ %>%
+  mutate(
+    _______ = fct_lump(______)
+  )
+```
+
+1.  Show the *counts* for each category.
+
+```{r}
+
+```
+
+
+
+2.  Calculate the *expected counts* for each category.  Use R to do this, and show your work:
+
+```{r}
+
+```
+
+
+3. Discuss the difference between the expected and actual counts.  Do you think there is a relationship between these variables?
+
+
+## Evidence: Quant-Quant
+
+Return to your research question (or choose a new one) pertaining to a two quantitative variables.
+
+1. Calculate the *correlation* or the *covariance*  (your choice) of the quantitative variable within each category.
+
+```{r}
+_______ %>%
+  group_by(_______) %>%
+  summarize(_______)
+
+```
+
+2. Run this code to make a *shuffled* version of your quantitative variable:
+
+```{r}
+set.seed(24892)  ## don't worry about this part!
+
+_______ <- ______ %>%
+  mutate(
+    quant_shuffled = sample(_______)
+  )
+```
+
+3. Calculate the *correlation* or the *covariance* of the *shuffled* quantitative variable, within each category.
+
+```{r}
+_______ %>%
+  group_by(_______) %>%
+  summarize(_______)
+
+```
+
+4. Repeat steps 2 and 3 a total of 5 times. (Copy paste the code, except for the `set.seed` part, five times - don't just hit the "play" button over and over!)
+
+```{r}
+set.seed(24892)  ## don't worry about this part!
+
+______ %>%
+  mutate(
+    quant_shuffled = sample(_______)
+  ) %>%
+  group_by(_______) %>%
+  summarize(_______)
+```
+
+5. Comment on the *actual* correlation/covariance in the data versus the correlation/covariance in the *shuffled* data.  Do you think there is evidence that there is a relationship between these quantitative variables?
+
+
+
+
+## Evidence: Cat-Quant
+
+Return to your research question (or choose a new one) pertaining to a categorical variable and a quantitative variable.  You'll want to choose a categorical variable with a small number of categories.
+
+1. Calculate the *mean* or the *median*  (your choice) of the quantitative variable within each category.
+
+```{r}
+_______ %>%
+  group_by(_______) %>%
+  summarize(_______)
+
+```
+
+2. Run this code to make a *shuffled* version of your quantitative variable:
+
+```{r}
+set.seed(24892)  ## don't worry about this part!
+
+_______ <- ______ %>%
+  mutate(
+    quant_shuffled = sample(_______)
+  )
+```
+
+3. Calculate the *mean* or the *median* of the *shuffled* quantitative variable, within each category.
+
+```{r}
+_______ %>%
+  group_by(_______) %>%
+  summarize(_______)
+
+```
+
+4. Repeat steps 2 and 3 a total of 5 times. (Copy paste the code, except for the `set.seed` part, five times - don't just hit the "play" button over and over!)
+
+```{r}
+set.seed(24892)  ## don't worry about this part!
+
+______ %>%
+  mutate(
+    quant_shuffled = sample(_______)
+  ) %>%
+  group_by(_______) %>%
+  summarize(_______)
+```
+
+5. Comment on the *actual* difference of means/medians in the data versus the difference of means/medians across categories in the *shuffled* data.  Do you think there is evidence that there is a relationship between the categorical and quantitative variables?
