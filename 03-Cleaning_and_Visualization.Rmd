@@ -1,0 +1,173 @@
+---
+title: "Cleaning and Visualization"
+author: "YOUR NAME HERE"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+```{r, include = FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(janitor)
+```
+
+
+```{r, message = FALSE}
+# delete all but the one for your dataset
+measles <- read_csv(here("Data", "measles.csv"))
+wine_ratings <- read_csv(here("Data", "wine_ratings.csv"))
+video_games <- read_csv(here("Data", "video_games.csv"))
+```
+
+## Choosing your variables
+
+Not every variable in your dataset will be used in your analysis.  Choose the 6 variables that you think are most important to your study.  This should include a mix of quantitative and categorical variables, and it should also include the column that labels your *observational units*.
+
+Fill out the code below to keep only the important variables.
+
+```{r}
+______ <- ______ %>%
+  select(________)
+```
+
+## Dealing with missing data and outliers
+
+We now would like to reduce our dataset to only the rows that have reasonable values observed for all important variables.
+
+First, let's get rid of all the rows with any `NA` values.
+
+```{r}
+______ <- ______ %>% drop_na()
+```
+
+Why was it important to do the variable selecting step *before* this step?
+
+Next, let's decide if there are any outliers or unreasonable values, and get rid of them:
+
+```{r}
+______ <- ______ %>%
+  filter(________ < ______)
+```
+
+## Tweaking Categorical Variables
+
+Many of the categorical variables in your dataset have far too many categories to reasonably study!  We will want to either drop some categories out or adjust these variables in some way.
+
+First, let's explore the variable we want to change, so we know what categories already exist:
+
+```{r, eval = FALSE}
+_________ %>%
+  tabyl(________) 
+
+_________ %>%
+  ggplot() +
+  geom_bar(aes(x = _______))
+```
+
+(Note: I have set this code so that the results won't show up in your *knitted* file.  This is so we don't have pages and pages of extra output!)
+
+#### Option 1: Make an "Other" category.
+
+One way to deal with too may categories is to combine lots of them into "Other"
+
+```{r}
+______ <- ______ %>%
+  mutate(
+    ______new = fct_lump(________, n = 3)
+  )
+```
+
+Examine the new variable:
+
+```{r, eval = FALSE}
+_________ %>%
+  tabyl(________) 
+
+```
+
+What did this do?  What does the `n` option determine?
+
+#### Option 2: Reduce your dataset to only certain categories.
+
+```{r}
+______ <- ______ %>%
+  filter(
+    _______ %in% c("______", "_______")
+  )
+```
+
+Examine the variable that you filtered to make sure that this worked:
+
+```{r, eval = FALSE}
+_________ %>%
+  tabyl(________) 
+
+```
+
+# Checkpoint
+
+At home, use the above processes to clean up any other variables that you think need a little help.
+
+Then, delete the lines that don't relate to your dataset, and run this code:
+
+```{r}
+measles %>% write_csv(here("Clean Data", "measles_clean.csv"))
+video_games %>% write_csv(here("Clean Data", "video_games_clean.csv"))
+wine_ratings %>% write_csv(here("Clean Data", "wine_ratings_clean.csv"))
+```
+
+In the future, we will only use the "clean" version of the data!
+
+## Research question: Cat-Cat
+
+Choose a research question that pertains to the *relationship* between two *categorical* variables.
+
+Create a visualization that addresses this research question.  Briefly interpret your results.
+
+```{r}
+_______ %>%
+  ggplot() +
+  geom_bar(aes(x = _______, fill = _____),
+           position = "fill")
+```
+
+
+## Research question: Quant-Quant
+
+Choose a research question that pertains to the *relationship* between two *quantitative variables*.
+
+Create a visualization that addresses this research question.  Briefly interpret your results.
+
+```{r}
+_______ %>%
+  ggplot() +
+  geom_point(aes(x = _______, y = _____))
+
+```
+
+
+## Research question: Cat-Quant
+
+Choose a research question that pertains to the *relationship* between a *categorical* and a *quantitative* variable.
+
+Create a visualization that addresses this research question.  Briefly interpret your results.
+
+```{r}
+_______ %>%
+  ggplot() +
+  geom_boxplot(aes(x = _______, y = _____))
+
+_______ %>%
+  ggplot() +
+  geom_density(aes(x = _______, fill = _______),
+               alpha = 0.5)
+```
+
+
+## To turn this in
+
+Make sure you have filled out all code and answered all questions, then turn this in following the usual steps.
