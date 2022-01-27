@@ -1,0 +1,143 @@
+---
+title: "Confidence Intervals, Central Limit Theorem"
+author: "YOUR NAME HERE"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+```{r, include = FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(janitor)
+library(infer)
+```
+
+
+```{r, message = FALSE}
+# delete all but the one for your dataset
+measles <- read_csv(here("Clean Data", "measles_clean.csv"))
+wine_ratings <- read_csv(here("Clean Data", "wine_ratings_clean.csv"))
+video_games <- read_csv(here("Clean Data", "video_games_clean.csv"))
+```
+
+## Part One: Normality
+
+*(Hint: You should copy your code over from a previous project step!)*
+
+Choose a **quantitative** variable in your dataset.  Make a histogram of this
+variable, and comment on it.  Does it seem to be Normally distributed?
+
+```{r}
+
+```
+
+Find the *sample mean* and *sample sd* of the variable.
+
+```{r}
+
+```
+
+If your variable were Normally distributed, 95\% of the observations would 
+fall between what two values?  (Use R as a calculator for this.)
+
+
+```{r}
+
+```
+
+In reality, 95\% of your observations fall between...
+
+```{r}
+_______ %>%
+  summarize(quantile(_____, c(0.025, .975))
+```
+
+Did this change your thoughts about whether the variable is Normal?
+
+## Part Two: Conf Ints
+
+Make a 95\% confidence interval for the **true mean** of your variable.  (Use R as
+a calculator to do this.)
+
+```{r}
+
+```
+
+But wait!  It's the 21st century.  We have computers.  Let's make the computer
+do all the work for us.
+
+```{r}
+_____ %>%
+  t_test(______, mu = 0)
+```
+
+Based on this output, what is the 95\% confidence interval?
+
+Now make a 99\% confidence interval:
+
+```{r}
+_____ %>%
+  t_test(______, mu = 0, conf_level = _____)
+```
+
+Based on these outputs, what are the chances of seeing a sample mean of _____, if
+the true mean is 0?
+
+Make a more reasonable guess about the true mean (but you should not guess your 
+sample mean exactly).  What are the chances of seeing a sample mean of _____, if
+the true mean is _____?
+
+```{r}
+_____ %>%
+  t_test(______, mu = 0)
+```
+
+
+## Part Three:  Compare two categories.
+
+Now choose a *categorical* variable and (temporarily) narrow it down to only
+two categories:
+
+```{r}
+______temp <- ______ %>%
+  filter(______ %in% c("______", "_______"))
+```
+
+Calculate the *sample means* in each category:
+
+```{r}
+_____ %>%
+  group_by(_____) %>%
+  summarize(mean(______))
+```
+
+What is the difference in sample means?
+
+
+Let's make a confidence interval for the **true difference in means** across these
+two categories:
+
+```{r}
+_____ %>%
+  t_test(______ ~ _______)
+```
+
+Which category had the **bigger** sample mean?
+
+Interpret your interval:  "I am 95\% confident that...."
+
+If these two categories have equal **true means**, what are the chances of getting
+a difference of sample means of ______?
+
+
+Do you believe these categories have equal true means, or not?  What do you
+conclude about the real world?
+
+
+
+
+
