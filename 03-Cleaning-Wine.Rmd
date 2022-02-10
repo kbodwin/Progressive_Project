@@ -1,0 +1,183 @@
+---
+title: "Data Cleaning: Guided Solutions"
+author: "YOUR NAME HERE"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+```{r, include = FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(janitor)
+```
+
+
+```{r, message = FALSE}
+wine_ratings <- read_csv(here("Data", "wine_ratings.csv"))
+head(wine_ratings)
+```
+
+## Choosing your variables
+
+Not every variable in your dataset will be used in your analysis.  Choose the 6 variables that you think are most important to your study.  This should include a mix of quantitative and categorical variables, and it should also include the column that labels your *observational units*, which in this case is `title`.
+
+Fill out the code below to make a new dataset called "wine_ratings_clean" and keep only the variables you want to ask questions about.  
+
+Reasonable categorical variables to choose are: `variety`, `province`, `region_1`,
+`region_2`, or `winery`.  
+(Think to yourself: why would `description` or `designation` or `taster_name` be
+bad choices to study?)
+
+You only have two quantitative variables in this dataset: `price` and `points`.
+
+```{r}
+wine_ratings_clean <- wine_ratings %>%
+  select(title, _____)
+```
+
+Copy the code above into your `Data_Cleaning.Rmd` file.
+
+## Dealing with missing data and outliers
+
+We now would like to reduce our dataset to only the rows that have reasonable values observed for all important variables.
+
+First, let's get rid of all the rows with any `NA` values.
+
+```{r}
+wine_ratings_clean <- wine_ratings_clean %>% drop_na()
+```
+
+Next, let's decide if there are any outliers or unreasonable values, and get rid of them.
+
+In this case, we want to drop the one wine with a super high price, because it is an outlier.
+
+```{r}
+wine_ratings_clean <- wine_ratings_clean %>%
+  filter(price < 500)
+```
+
+Copy the code above into your `Data_Cleaning.Rmd` file.
+
+## Tweaking Categorical Variables
+
+Consider the following three research questions:
+
+> How does the price of wine in New York compare to all other states?
+
+> How does the price of wine in New York compare to the price in New Jersey?
+
+> Among wines from only New York, how does the price of Bordeaux compare to the
+price of Cabernet Sauvignon?
+
+Think about what data you would need, specifically in the `province` variable,
+to address each of these questions.
+
+*(Note: Since I gave you these research question examples, these are now ones
+that you cannot use for your final project.)*
+
+#### The "Other" category
+
+> How does the price of wine in New York compare to all other states?
+
+To answer this question, you would need a variable that labels wines as either "New York"
+or "Not New York", aka "Other".
+
+You would achieve this by:
+
+```{r}
+wine_ratings_clean <- wine_ratings_clean %>%
+  mutate(
+    ny_or_not = fct_other(province, keep = "New York")
+  )
+```
+
+As we can see below, we used the information in the `province` variable to 
+create a new variable called `ny_or_not`.
+
+```{r}
+wine_ratings_clean %>%
+  tabyl(ny_or_not)
+```
+
+#### Narrowing down to a few categories
+
+> How does the price of wine in New York compare to the price in New Jersey?
+
+To answer this question, we don't need a new variable.  However, we are no longer
+interested in any states besides New York and New Jersey.  Thus, we want to get
+rid of all the data that isn't from these two states.
+
+We accomplish this with:
+
+```{r}
+wine_ratings_clean <- wine_ratings_clean %>%
+  filter(
+    province %in% c("New York", "New Jersey")
+  )
+```
+
+Now we can see that `wine_ratings_clean` has less information in it that the
+original dataset `wine_ratings`:
+
+```{r}
+wine_ratings %>%
+  tabyl(province)
+```
+
+
+```{r}
+wine_ratings_clean %>%
+  tabyl(province)
+```
+
+#### Limiting ourselves to one category
+
+> Among wines from only New York, how does the price of Bordeaux compare to the
+price of Cabernet Sauvignon?
+
+To address this question, we only need to study wines from New York.  Note that
+we are no longer asking a question that compares different states - we can't do
+that if we only have data from New York!  Instead, we are limiting our *population*
+of interest to only New York wines, and asking different questions (such as comparisons
+between varieties) about that population.
+
+The process is the same as it was for limiting to two or more categories:
+
+
+```{r}
+wine_ratings_clean <- wine_ratings_clean %>%
+  filter(
+    province %in% c("New York")
+  )
+```
+
+
+#### Your turn
+
+Now that you have seen a few different examples of how we might clean the data
+with regard to the `province` variable, you need to decide which of **one** these 
+three approaches makes the most sense for **your** research
+question of interest.  Copy the relevant code for the approach you choose, 
+replacing "New York" and/or "New Jersey" with the states you are going to study.
+Put this code into your `Data_Cleaning.Rmd` file.
+
+#### Other categorical variables
+
+For each of your other categorical variables, decide which one of the three
+approaches matches your research questions.  Copy that code to your `Data_Cleaning.Rmd`
+file.
+
+Note that you will need to replace `province` with the name of the variable you 
+are cleaning.  You will also need to replace the name `ny_or_not` with a good
+descriptive name, if you are choosing the "Other" approach.
+
+A word of caution: Many of the categories only have a few observations; for example,
+there is only one wine from Rhode Island.  These categories are not good choices
+to study!  We want to observe enough wines from each chosen category to make a
+conclusion from the data.  Keep this in mind, especially if you are using the
+`winery` or one of the `region` variables!
+

@@ -1,0 +1,226 @@
+---
+title: "Data Cleaning: Guided Solutions"
+author: "YOUR NAME HERE"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+```{r, include = FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(janitor)
+```
+
+
+```{r, message = FALSE}
+video_games <- read_csv(here("Data", "video_games.csv"))
+head(video_games)
+```
+
+## Choosing your variables
+
+Not every variable in your dataset will be used in your analysis.  Choose the 6 variables that you think are most important to your study.  This should include a mix of quantitative and categorical variables, and it should also include the column that labels your *observational units*, which in this case is `game`.
+
+Fill out the code below to make a new dataset called "video_games_clean" and keep only the variables you want to ask questions about.  
+
+Reasonable categorical variables to choose are: 
+
+* `developer`, `publisher`, or `owners` (note that this is a quantitative variable converted to categories!)
+* `year`, if you choose to study only a small number of years rather than treating this as a quantitative varible.
+
+(Think to yourself: why would `game` or `release_date` be
+bad choices to study?)
+
+You also have several quantitative variables in this dataset, all of which are reasonable choices:  `price`, `average_playtime`, `median_playtime`, `metascore` and `year` (if you are not treating it as categorical) are good choices.
+
+Note that `number` is not a true quantitative variable - it's just a label!
+
+```{r}
+video_games_clean <- video_games %>%
+  select(game, _____)
+```
+
+Copy the code above into your `Data_Cleaning.Rmd` file.
+
+## Tweaking Categorical Variables
+
+Consider the following three research questions:
+
+> How does the price of games in Square Enix compare to prices from all other publishers?
+
+> How does the price of games in Square Enix compare to those from Sekai Project?
+
+> Among games from only Square Enix, how do the prices of games differ by number of owners?
+
+Think about what data you would need, specifically in the `publisher` variable,
+to address each of these questions.
+
+*(Note: Since I gave you these research question examples, these are now ones
+that you cannot use for your final project.)*
+
+#### The "Other" category
+
+> How does the price of games in Square Enix compare to prices from all other publishers?
+
+To answer this question, you would need a variable that labels games as either 
+"Square Enix" or "Not Square Enix", aka "Other".
+
+You would achieve this by:
+
+```{r}
+video_games_clean <- video_games_clean %>%
+  mutate(
+    se_or_not = fct_other(publisher, keep = "Square Enix")
+  )
+```
+
+As we can see below, we used the information in the `publisher` variable to 
+create a new variable called `se_or_not`.
+
+```{r}
+video_games_clean %>%
+  tabyl(se_or_not)
+```
+
+#### Narrowing down to a few categories
+
+> How does the price of games from Square Enix compare to the price of those from Sekai Project?
+
+To answer this question, we don't need a new variable.  However, we are no longer
+interested in any publishers besides Square Enix and Sekai Project.  Thus, we want to get
+rid of all the data that isn't from these two publishers.
+
+We accomplish this with:
+
+```{r}
+video_games_clean <- video_games_clean %>%
+  filter(
+    publisher %in% c("Square Enix", "Sekai Project")
+  )
+```
+
+Now we can see that `video_games_clean` has less information in it that the
+original dataset `video_games`:
+
+```{r}
+video_games %>%
+  tabyl(publisher)
+```
+
+
+```{r}
+video_games_clean %>%
+  tabyl(publisher)
+```
+
+#### Limiting ourselves to one category
+
+> Among games from only Square Enix, how do the prices of games differ by number of owners?
+
+To address this question, we only need to study games from Square Enix.  Note that
+we are no longer asking a question that compares different publishers - we can't do
+that if we only have data from Square Enix!  Instead, we are limiting our *population*
+of interest to only Square Enix games, and asking different questions (such as comparisons between owner number categories) about that population.
+
+The process is the same as it was for limiting to two or more categories:
+
+
+```{r}
+video_games_clean <- video_games_clean %>%
+  filter(
+    publisher %in% c("Square Enix")
+  )
+```
+
+## Dealing with missing data and outliers
+
+First, let's reset our `video_games_clean` dataset so that it doesn't only have Square Enix:
+
+```{r, message = FALSE}
+video_games <- read_csv(here("Data", "video_games.csv"))
+head(video_games)
+```
+
+```{r}
+video_games_clean <- video_games %>%
+  select(name, _____)
+
+video_games_clean <- video_games_clean %>% drop_na()
+```
+
+Next, let's decide if there are any outliers or unreasonable values in our 
+quantitative variables, and get rid of them.
+
+In this case, we see a lot of median or average playtimes of 0:
+
+```{r}
+video_games %>% summary()
+```
+
+This doesn't make sense! It is likely that 0 has been used to mark missing data.
+
+Also, we might notice that there are some extreme values of playtimes and of price.  This doesn't mean the data is wrong - but we might choose to study games only in a certain playtime range or price range.  This choice is up to you.
+
+Let's drop any data that doesn't conform to those requirements.
+
+```{r}
+video_games_clean <- video_games_clean %>%
+  filter(average_playtime > 0) %>%
+  filter(median_playtime > 0) %>%
+  filter(price > ____, price < ____)
+```
+
+Fill in the blanks and delete the `filter` steps that relate to variables you aren't using.
+
+
+## Putting it together
+
+Now, depending on what quantitative variables you decided to use, and what choices you made about getting rid of extreme observations, you've gotten rid
+of a lot of the information in your dataset (which is fine!). 
+
+Let's see if your categorical variables still need to be cleaned up:
+
+```{r}
+video_games_clean %>%
+  tabyl(developer)
+
+video_games_clean %>%
+  tabyl(publisher)
+
+video_games_clean %>%
+  tabyl(owners)
+```
+
+Ask yourself: do any of these categorical variables need to be cleaned?
+
+If you still have lots of different categories, the answer is yes!  Which of
+the three approaches do you want to take: Make an "other" category, narrow yourself down to a few (2-5) categories, or limit your population to only one category?
+
+If you have only a few categories, the answer may still be yes!  For example, maybe your developers are only `Big Fish`, `SEGA`, and `Ubisoft`. Even though three categories are manageable, you still may want to study "SEGA vs Other", or "Sega vs Ubisoft", or limit yourself to only Sega games  
+
+
+You have seen a few different examples of how we might clean the data
+with regard to the `publisher` variable, you need to decide which of **one** these 
+three approaches makes the most sense for **your** research
+question of interest.  
+
+Copy the relevant code for the approach you choose, 
+replacing `publisher` with the variable you are cleaning, and "Square Enix" and/or "Sekai Project" with the categories you are going to study.
+
+You will also need to replace the name `se_or_not` with a good
+descriptive name, if you are choosing the "Other" approach.
+
+Put this code into your `Data_Cleaning.Rmd` file.
+
+A word of caution: Many of the categories only have a few observations; for example,
+there is only one game by "YearOfTheBob".  These categories are not good choices
+to study!  We want to observe enough games from each chosen category to make a
+conclusion from the data.  Keep this in mind, especially if you are using the
+`developer` or `publisher` variables!
+
+
+

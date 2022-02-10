@@ -1,0 +1,89 @@
+---
+title: "Data Cleaning"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include = FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(janitor)
+```
+
+## Load and examine the data
+
+```{r, message = FALSE}
+# delete all but the one for your dataset
+wine_ratings <- read_csv(here("Data", "wine_ratings.csv"))
+head(wine_ratings)
+```
+
+## Select variables and drop NAs
+
+
+```{r}
+______ <- ______ %>%
+  select(________)
+```
+
+```{r}
+______ <- ______ %>% drop_na()
+```
+
+## Clean quantitative variables
+
+```{r}
+______ <- ______ %>%
+  filter(________ < ______)
+```
+
+
+## Clean categorical variables
+
+(For each variable, choose only **one** of the three cleaning options!)
+
+```{r}
+______ <- ______ %>%
+  mutate(
+    ______ = fct_other(keep = ________)
+  )
+```
+
+```{r}
+______ <- ______ %>%
+  filter(
+    _______ %in% c("______", "_______")
+  )
+```
+
+## Check your work
+
+Look at the summary of your clean data.  Does it look how you hoped?
+
+```{r}
+_____ %>% summary()
+```
+
+
+## Visualization
+
+Make some visualizations, to see if your variables are now cleaned up and
+able to answer research questions.
+
+(Copy-pasting these from other steps is encouraged!)
+
+
+## Save final dataset
+
+This will make a new text file named "data_final.csv", which contains the newly
+cleaned-up dataset!
+
+```{r, message = FALSE}
+## write in the name of your clean dataset
+_______ %>% write_csv(here("Data", "data_final.csv"))
+
+```
