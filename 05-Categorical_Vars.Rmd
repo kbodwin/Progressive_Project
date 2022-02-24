@@ -1,0 +1,156 @@
+---
+title: "Categorical Variables"
+author: "YOUR NAME HERE"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+```{r, include = FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(janitor)
+library(infer)
+```
+
+
+```{r, message = FALSE}
+# delete all but the one for your dataset
+## if you did the Step 03 Redo, change "measles_clean.csv" to "data_final.csv"
+measles <- read_csv(here("Data", "measles_clean.csv"))
+wine_ratings <- read_csv(here("Data", "wine_ratings_clean.csv"))
+video_games <- read_csv(here("Data", "video_games_clean.csv"))
+```
+
+## Part One: One Categorical Variable
+
+Choose a **categorial** variable in your dataset.  Make a barplot of this
+variable, and comment on it.  Do the categories seem equally represented?
+
+```{r}
+
+```
+
+Find the *sample proportions* and *counts* of the categories.
+
+```{r}
+______ %>%
+  tabyl(_______)
+```
+
+
+What are the *expected proportions* and *expected counts* for each category?  How close are they to what you actually see in the data?
+
+Perform a Chi-Square Test to see if the proportions are equal:
+
+```{r}
+_______ %>%
+  chisq_test(response = ________)
+```
+
+* Report the hypotheses of this test.
+
+* Report the **test statistic** of this test.
+
+* Report and interpret the **p-value** of this test.
+
+
+## Part Two: Two Categorical Variables
+
+Now choose two **categorial** variables in your dataset.  Make a stacked barplot of these
+variables, and comment on it.
+
+```{r}
+
+```
+
+Find the *counts* of the categories:
+
+```{r}
+______ %>%
+  tabyl(_______, ______)
+```
+
+
+Find the *conditional distribution* of the categories:
+
+```{r}
+______ %>%
+  tabyl(_______, ______) %>%
+  adorn_percentages(denominator = "row")
+```
+
+Note:  The choice of denominator (rows or columns) matters.  It is important to decide which variable is *explanatory*, and that is the one you want to condition on.  For example, it is different to say
+
+> 70% of women on the Titanic survived, 20% of men survived.
+
+versus
+
+> 50% of survivors from the Titanic were women, 10% of non-survivors were women.
+
+In the first one, we conditioned on the variable "gender" and then calculated survival in each gender; in the second we conditioned on "survival".  The first one tells a better story.
+
+Write a sentence like the ones above based on the conditional distribution in your data:
+
+
+Calculate the *expected proportions* and *expected counts* for **one** of the categories of your explanatory variable?  How close are they to what you actually see in the data?
+
+Perform a Chi-Square Test:
+
+```{r}
+_______ %>%
+  chisq_test(response = ________,
+             explanatory = _______)
+```
+
+* Report the hypotheses of this test.
+
+* Report the **test statistic** of this test.
+
+* Report and interpret the **p-value** of this test.
+
+* What do you conclude about the real world?
+
+
+## Part Three:  Confidence Intervals
+
+Let's choose one category of one variable to focus on.  We will make a new variable in our dataset that has a value of "1" if the observation is in that target category, and "0" if not.
+
+```{r}
+_______ <- _______ %>%
+  mutate(
+    target = ifelse(_______ == "_____", 1, 0)
+  )
+```
+
+Find the mean and standard deviation of this new quantitative variable:
+
+```{r}
+_______ %>%
+  summarize(mean(_______),
+            sd(_______))
+```
+
+Interpret the mean - what does it tell you about your original *categorical* variable?
+
+Now create a confidence interval for the `target` variable:
+
+```{r}
+______ %>%
+  t_test(response = _______)
+```
+
+
+Interpret this confidence interval, in terms of the original *categorical* variable:
+
+"We are 95% confident that the **true proportion** of _________ is between _______ and ________."
+
+
+
+
+
+
+
