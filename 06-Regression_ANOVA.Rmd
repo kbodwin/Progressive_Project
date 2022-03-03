@@ -1,0 +1,158 @@
+---
+title: "Regression and ANOVA"
+author: "YOUR NAME HERE"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+```{r, include = FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(janitor)
+library(infer)
+```
+
+
+```{r, message = FALSE}
+# delete all but the one for your dataset
+## if you did the Step 03 Redo, change "measles_clean.csv" to "data_final.csv"
+measles <- read_csv(here("Data", "measles_clean.csv"))
+wine_ratings <- read_csv(here("Data", "wine_ratings_clean.csv"))
+video_games <- read_csv(here("Data", "video_games_clean.csv"))
+```
+
+## Part One: ANOVA
+
+Choose a **quantitative variable** and a **categorical** variable *with at least three categories* fom your dataset.  Make a side-by-side boxplots of these
+variables, and comment on the visual.  Do the categories seem to have equal means?
+
+```{r}
+
+```
+
+Find the overall mean and variance of the quantitative variable:
+
+```{r}
+_______ %>%
+  summarize(mean(______),
+            var(______))
+```
+
+
+Find the means and variances for each category.
+
+```{r}
+______ %>%
+  group_by(_____) %>%
+  summarize(mean(______),
+            var(______))
+```
+
+
+Comment on the calculations.  How do the **within-group** variances compare to the **overall** variance?  Does there seem to be a strong *reduction in variance* from accounting for groups?
+
+Run a *linear regression* with the categorical variable as the explanatory variable (second one after the `~`).
+
+```{r}
+model_1 <- lm(________ ~ _______, 
+                      data = ______)
+
+summary(model_1)
+```
+
+Do an ANOVA F-Test to see if there is a difference in means:
+
+```{r}
+model_1 %>%
+  anova()
+```
+
+* Comment on the outputs from the linear model and from the ANOVA test.  What is the same?  What is different?
+
+* State your hypotheses for the ANOVA test.
+
+* Report your test statistic and p-value for the ANOVA test
+
+* State your conclusion from the ANOVA test.
+
+* Is it possible that your test committed **Type I Error**?  Why or why not?
+
+* Is it possible that your test committed **Type II Error**?  Why or why not?
+
+
+Now perform the follow-up t-tests:
+
+```{r}
+model_1 %>%
+  aov() %>%
+  TukeyHSD()
+```
+
+* Explain why the p-value column is called "p adj" and not "p-value".
+
+
+* Report your final conclusions.
+
+
+## Part Two: Regression
+
+Now choose two **quantitative** variables in your dataset.  Make a scatterplot, and add a line for the linear regression.
+
+```{r}
+_______ %>%
+  ggplot(aes(x = ________,
+                 y = ________)) +
+  geom_point() +
+  stat_smooth(method = "lm")
+```
+
+Find the *covariance* and *correlation* between the two variables:
+
+```{r}
+______ %>%
+  summarize(cor(_____, ______),
+            cov(_____, ______))
+```
+
+
+Compute a linear regression for these variable.  Think carefully about which one you want to be *explanatory* and which one is *response*.
+
+
+```{r}
+model_2 <- lm(________ ~ _______, 
+                      data = ______)
+
+summary(model_2)
+```
+
+Report *and interpret*:
+
+* The slope
+
+* The R-squared value
+
+* The F-statistic and p-value
+
+* The t-statistic and p-value
+
+
+Did we find evidence of a relationship between the variables?
+
+Look at the value of your variables in the first row of your dataset:
+
+```{r}
+______ %>%
+  select(_____, ______) %>%
+  slice(1)
+```
+
+* What does your regression *predict* for this value of the *explanatory variable*? 
+
+* What is the residual (real - predicted) for this value?
+
+* Is this **extrapolation**?
+
