@@ -27,7 +27,7 @@ video_games <- read_csv(here("Data", "video_games_clean.csv"))
 
 ## Part One: One Categorical Variable
 
-Choose a **categorial** variable in your dataset.  Make a barplot of this
+Choose a **categorical** variable in your dataset.  Make a barplot of this
 variable, and comment on it.  Do the categories seem equally represented?
 
 ```{r}
@@ -57,10 +57,14 @@ _______ %>%
 
 * Report and interpret the **p-value** of this test.
 
+* Is it possible that your test committed **Type I Error**?  Why or why not?
+
+* Is it possible that your test committed **Type II Error**?  Why or why not?
+
 
 ## Part Two: Two Categorical Variables
 
-Now choose two **categorial** variables in your dataset.  Make a stacked barplot of these
+Now choose two **categorical** variables in your dataset.  Make a stacked barplot of these
 variables, and comment on it.
 
 ```{r}
